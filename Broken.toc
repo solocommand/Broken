@@ -1,0 +1,18 @@
+## Interface: 100000
+## Title: Broken
+## Notes: A customizable data broker for displaying equipment durability
+## Author: solocommand
+## SavedVariables: BrokenSettings
+## Version: @project-version@
+## X-ReleaseDate: @project-date-iso@
+## X-License: MIT
+## X-Curse-Project-ID: 695066
+## X-Wago-ID: RqGYWe6g
+## OptionalDeps: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
+
+embeds.xml
+
+i18n\enUS.lua
+
+Broken.lua
+config.lua
