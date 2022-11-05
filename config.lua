@@ -29,6 +29,14 @@ local function build()
         name = L.showValues,
         desc = L.showValuesDescription,
       },
+      showValuesAlways = {
+        type = 'toggle',
+        order = 1,
+        get = function(info) return addon.db[info[#info]] end,
+        set = function(info, value) return addon:setDB(info[#info], value) end,
+        name = L.showValuesAlways,
+        desc = L.showValuesAlwaysDescription,
+      },
       showPercent = {
         type = 'toggle',
         order = 1,

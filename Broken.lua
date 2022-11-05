@@ -36,6 +36,7 @@ do
     if type(sv.minimap) ~= "table" then sv.minimap = {hide=false} end
     if type(sv.showCost) ~= "boolean" then sv.showCost = true end
     if type(sv.showCostAlways) ~= "boolean" then sv.showCostAlways = false end
+    if type(sv.showValuesAlways) ~= "boolean" then sv.showValuesAlways = false end
     if type(sv.showValues) ~= "boolean" then sv.showValues = false end
     if type(sv.showPercent) ~= "boolean" then sv.showPercent = true end
     addon.db = sv
@@ -73,6 +74,17 @@ do
 
   addon.dataobj = dataobj
 
+  local function getColoredText(text, pct)
+    if (pct <= 0.25) then
+      return red(text)
+    elseif (pct < 0.75) then
+      return yellow(text)
+    elseif (pct < 1.0) then
+      return green(text)
+    end
+    return text
+  end
+
   local function getDurability()
     local totalCurr = 0
     local totalMax = 0
@@ -87,18 +99,8 @@ do
         cost = cost + repairCost
       end
     end
-    -- @todo color text
-    local pct = totalCurr / totalMax
-    local percentage = math.floor(totalCurr / totalMax * 100)
-    if (pct <= 0.25) then
-      percentage = red(percentage)
-    elseif (pct < 0.75) then
-      percentage = yellow(percentage)
-    elseif (pct < 1.0) then
-      percentage = green(percentage)
-    else
-      percentage = percentage
-    end
+    local pct = totalCurr / totalMax;
+    local percentage = (" %.f%%"):format(math.floor(pct * 100));
     return totalCurr, totalMax, percentage, cost
   end
 
@@ -118,10 +120,15 @@ do
 
   local function updateText()
     local current, total, percentage, cost = getDurability();
+    local pct = current / total
     local text = "";
 
-    if (addon.db.showValues) then text = text .. (' %s/%s'):format(current, total) end
-    if (addon.db.showPercent) then text = text .. (" %.f%%"):format(percentage) end
+    if (addon.db.showValues) then 
+      if (cost > 0 or addon.db.showValuesAlways) then
+        text = text .. (' %s/%s'):format(getColoredText(current, pct), total)
+      end
+    end
+    if (addon.db.showPercent) then text = text .. getColoredText(percentage, pct) end
     if (addon.db.showCost) then
       if (cost > 0 or addon.db.showCostAlways) then
         text = text .. (" %s"):format(GetMoneyString(cost))

@@ -18,6 +18,8 @@ L.showValues = 'Show values'
 L.showValuesDescription = 'Show the min/max values of damaged items in the data text'
 
 L.showCostAlways = 'Always show repair cost'
-L.showCostAlwaysDescription = 'Always show the repair cost in the data text, even when nothing.'
+L.showCostAlwaysDescription = 'Always show the repair cost in the data text, even when fully repaired.'
+L.showValuesAlways = 'Always show values'
+L.showValuesAlwaysDescription = 'Always show the min/max values in the data text, even when fully repaired.'
 
 addon.L = L
